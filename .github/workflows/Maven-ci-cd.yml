@@ -1,0 +1,23 @@
+name: CI/CD for Maven-Java App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build Docker image
+      run: docker build -t aashan01/Breadcrumbsmaven-java-monitoring-example:latest .
+
+    - name: Login to DockerHub
+      run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Push to DockerHub
+      run: docker push aashan01/Breadcrumbsmaven-java-monitoring-example:latest
